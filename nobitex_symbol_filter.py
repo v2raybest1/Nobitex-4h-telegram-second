@@ -1,4 +1,3 @@
-
 import json
 import os
 import statistics
@@ -11,10 +10,15 @@ BASE_URL = "https://apiv2.nobitex.ir"
 
 def api_get(path, params=None):
     url = BASE_URL + path
+
     if params:
         url += "?" + urllib.parse.urlencode(params)
 
-    req = urllib.request.Request(url, headers={"User-Agent": "Nobitex-Filter"})
+    req = urllib.request.Request(
+        url,
+        headers={"User-Agent": "Nobitex-Symbol-Filter"}
+    )
+
     with urllib.request.urlopen(req, timeout=30) as r:
         return json.loads(r.read().decode())
 
@@ -30,7 +34,7 @@ def telegram_send(text):
 
     data = urllib.parse.urlencode({
         "chat_id": chat_id,
-        "text": text
+        "text": text[:4000]
     }).encode()
 
     urllib.request.urlopen(
@@ -42,16 +46,30 @@ def telegram_send(text):
 def get_usdt_symbols():
     data = api_get("/market/stats")
 
+    # Debug: print raw API response
+    print("RAW MARKET/STATS RESPONSE:")
+    print(json.dumps(data, indent=2, ensure_ascii=False)[:5000])
+
     markets = data.get("stats", data)
 
-    if isinstance(markets, dict):
-        symbols = markets.keys()
-    else:
-        symbols = []
+    symbols = []
 
-    return sorted(
-        [s for s in symbols if isinstance(s, str) and s.endswith("USDT")]
-    )
+    if isinstance(markets, dict):
+        symbols = list(markets.keys())
+
+    elif isinstance(markets, list):
+        symbols = [
+            x.get("symbol")
+            for x in markets
+            if isinstance(x, dict) and x.get("symbol")
+        ]
+
+    symbols = [
+        s for s in symbols
+        if isinstance(s, str) and s.endswith("USDT")
+    ]
+
+    return sorted(set(symbols))
 
 
 def get_candles(symbol):
@@ -80,17 +98,16 @@ def get_candles(symbol):
 
 
 def calc_atr(candles):
-    tr = []
+    trs = []
 
     for i in range(1, len(candles)):
         h = candles[i]["high"]
         l = candles[i]["low"]
-        pc = candles[i-1]["close"]
+        pc = candles[i - 1]["close"]
 
-        tr.append(max(h-l, abs(h-pc), abs(l-pc)))
+        trs.append(max(h-l, abs(h-pc), abs(l-pc)))
 
-    atr = statistics.mean(tr)
-    return atr / candles[-1]["close"] * 100
+    return statistics.mean(trs) / candles[-1]["close"] * 100
 
 
 def calc_volume(candles):
@@ -107,6 +124,7 @@ def main():
     results = []
 
     symbols = get_usdt_symbols()
+
     print("Symbols:", len(symbols))
 
     for symbol in symbols:
@@ -141,20 +159,14 @@ def main():
     with open("symbol_ranking.json", "w", encoding="utf-8") as f:
         json.dump(results, f, indent=2, ensure_ascii=False)
 
-    report = "Nobitex Symbol Ranking\n\n"
+    report = "Nobitex Symbol Filter\n\n"
 
     for i, r in enumerate(results, 1):
-        line = (
-            f"{i}) {r['symbol']} | "
-            f"ATR:{r['atr_percent_60d']}% | "
-            f"MedianVol:{r['median_hour_value']} | "
-            f"CV:{r['volume_cv']} | "
-            f"Score:{r['score']}"
-        )
+        line = f"{i}) {r}"
         print(line)
         report += line + "\n"
 
-    telegram_send(report[:4000])
+    telegram_send(report)
 
 
 if __name__ == "__main__":
