@@ -1,4 +1,5 @@
-name: Nobitex Symbol Filter Final
+
+name: Nobitex Symbol Filter Telegram
 
 on:
   workflow_dispatch:
@@ -16,11 +17,13 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Run symbol ranking
-        run: |
-          python nobitex_symbol_filter.py
+      - name: Run scanner
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python nobitex_symbol_filter.py
 
-      - name: Upload result
+      - name: Upload full result
         uses: actions/upload-artifact@v4
         with:
           name: symbol-ranking
