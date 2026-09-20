@@ -44,30 +44,24 @@ def telegram_send(text):
 
 def get_usdt_symbols():
     data = api_get("/market/stats")
-
     raw = data.get("stats", {})
-
-    print("RAW SYMBOL COUNT:", len(raw))
 
     symbols = []
 
     for s in raw.keys():
         if isinstance(s, str) and s.lower().endswith("-usdt"):
-            symbols.append(
-                s.replace("-", "").upper()
-            )
+            symbols.append(s.replace("-", "").upper())
 
-    print("USDT SYMBOLS:", symbols)
     return sorted(set(symbols))
 
 
-def get_candles(symbol):
+def get_candles(symbol, resolution, days):
     now = datetime.now(timezone.utc)
 
     params = {
         "symbol": symbol.lower(),
-        "resolution": "60",
-        "from": int(now.timestamp()) - 60 * 86400,
+        "resolution": str(resolution),
+        "from": int(now.timestamp()) - days * 86400,
         "to": int(now.timestamp())
     }
 
@@ -86,30 +80,32 @@ def get_candles(symbol):
     return candles
 
 
-def atr_percent(candles):
+def atr_percent_1h(candles):
     trs = []
 
     for i in range(1, len(candles)):
         h = candles[i]["high"]
         l = candles[i]["low"]
-        pc = candles[i-1]["close"]
+        pc = candles[i - 1]["close"]
 
         trs.append(max(h-l, abs(h-pc), abs(l-pc)))
 
     return statistics.mean(trs) / candles[-1]["close"] * 100
 
 
-def volume_metrics(candles):
+def volume_metrics_4h(candles):
     values = [c["volume"] * c["close"] for c in candles]
 
     mean = statistics.mean(values)
     median = statistics.median(values)
     std = statistics.stdev(values)
 
+    cv = std / mean if mean else 0
+
     return {
-        "avg_hour_value": round(mean, 2),
-        "median_hour_value": round(median, 2),
-        "volume_cv": round(std / mean, 4) if mean else 0
+        "avg_4h_value": round(mean, 2),
+        "median_4h_value": round(median, 2),
+        "volume_cv": round(cv, 4)
     }
 
 
@@ -117,34 +113,36 @@ def main():
     results = []
 
     symbols = get_usdt_symbols()
-    print("Symbols:", len(symbols))
+
+    print("USDT symbols:", len(symbols))
 
     for symbol in symbols:
         try:
-            candles = get_candles(symbol)
+            candles_1h = get_candles(symbol, 60, 20)
+            candles_4h = get_candles(symbol, 240, 60)
 
-            if len(candles) < 1000:
-                print("SKIP LOW DATA:", symbol, len(candles))
+            if len(candles_1h) < 300 or len(candles_4h) < 200:
+                print("SKIP DATA:", symbol, len(candles_1h), len(candles_4h))
                 continue
 
             row = {
                 "symbol": symbol,
-                "atr_percent_60d": round(atr_percent(candles), 4),
-                **volume_metrics(candles)
+                "atr_1h_20d_percent": round(atr_percent_1h(candles_1h), 4),
+                **volume_metrics_4h(candles_4h)
             }
 
             row["score"] = round(
-                row["atr_percent_60d"] *
-                row["median_hour_value"] /
-                (1 + row["volume_cv"]),
+                row["atr_1h_20d_percent"]
+                * row["median_4h_value"]
+                / (1 + row["volume_cv"]),
                 2
             )
 
             results.append(row)
-            print("DONE:", row)
+            print(row)
 
         except Exception as e:
-            print("ERROR:", symbol, e)
+            print("ERROR", symbol, e)
 
     results.sort(key=lambda x: x["score"], reverse=True)
 
@@ -156,10 +154,10 @@ def main():
     for i, r in enumerate(results, 1):
         report += (
             f"{i}) {r['symbol']} | "
-            f"ATR {r['atr_percent_60d']}% | "
-            f"Median {r['median_hour_value']} | "
-            f"CV {r['volume_cv']} | "
-            f"Score {r['score']}\n"
+            f"ATR1H20D:{r['atr_1h_20d_percent']}% | "
+            f"Median4H:{r['median_4h_value']} | "
+            f"CV:{r['volume_cv']} | "
+            f"Score:{r['score']}\n"
         )
 
     print(report)
