@@ -1,4 +1,4 @@
-name: Nobitex Symbol Filter
+name: Nobitex Symbol Filter Final
 
 on:
   workflow_dispatch:
@@ -16,5 +16,12 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Run filter
-        run: python nobitex_symbol_filter.py
+      - name: Run symbol ranking
+        run: |
+          python nobitex_symbol_filter.py
+
+      - name: Upload result
+        uses: actions/upload-artifact@v4
+        with:
+          name: symbol-ranking
+          path: symbol_ranking.json
