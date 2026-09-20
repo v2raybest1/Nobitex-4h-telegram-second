@@ -5,7 +5,6 @@ import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
 
-
 BASE_URL = "https://apiv2.nobitex.ir"
 
 
@@ -32,13 +31,13 @@ def telegram_send(text):
 
     url = f"https://api.telegram.org/bot{token}/sendMessage"
 
-    data = urllib.parse.urlencode({
+    body = urllib.parse.urlencode({
         "chat_id": chat_id,
         "text": text[:4000]
     }).encode()
 
     urllib.request.urlopen(
-        urllib.request.Request(url, data=data),
+        urllib.request.Request(url, data=body),
         timeout=20
     )
 
@@ -49,7 +48,7 @@ def get_usdt_symbols():
 
     symbols = []
 
-    for s in stats.keys():
+    for s in stats:
         if isinstance(s, str) and s.endswith("-usdt"):
             symbols.append(s.replace("-", "").upper())
 
@@ -94,32 +93,57 @@ def atr_percent(candles):
     return statistics.mean(trs) / candles[-1]["close"] * 100
 
 
-def volume_stats(candles):
-    values = [
-        c["volume"] * c["close"]
-        for c in candles
-    ]
+def daily_volume_from_4h(candles):
+    """
+    تبدیل کندل 4H به ارزش معاملات روزانه واقعی:
+    هر 6 کندل 4 ساعته = یک روز
+    """
+
+    daily_values = []
+
+    for i in range(0, len(candles)-5, 6):
+        total = 0
+
+        for c in candles[i:i+6]:
+            total += c["volume"] * c["close"]
+
+        daily_values.append(total)
+
+    if not daily_values:
+        return 0, 0
+
+    return (
+        statistics.mean(daily_values),
+        statistics.median(daily_values)
+    )
+
+
+def volume_cv(candles):
+    values = [c["volume"] * c["close"] for c in candles]
+
+    if len(values) < 2:
+        return 0
 
     mean = statistics.mean(values)
-    median = statistics.median(values)
-    std = statistics.stdev(values) if len(values) > 1 else 0
 
-    return mean, median, std / mean if mean else 0
+    if mean == 0:
+        return 0
+
+    return statistics.stdev(values) / mean
 
 
-def normalize(values):
-    if not values:
-        return {}
+def normalize(items, key):
+    values = [x[key] for x in items]
 
     mn = min(values)
     mx = max(values)
 
     if mx == mn:
-        return {v: 100 for v in values}
+        return {id(x): 100 for x in items}
 
     return {
-        v: (v - mn) / (mx - mn) * 100
-        for v in values
+        id(x): ((x[key]-mn)/(mx-mn))*100
+        for x in items
     }
 
 
@@ -131,6 +155,7 @@ def main():
     print("Symbols:", len(symbols))
 
     for symbol in symbols:
+
         try:
             candles_1h = get_candles(symbol, 60, 20)
             candles_4h = get_candles(symbol, 240, 60)
@@ -140,43 +165,45 @@ def main():
                 continue
 
             atr = atr_percent(candles_1h)
-            avg4h, median4h, cv = volume_stats(candles_4h)
 
-            daily_value = median4h * 6
+            avg_daily, median_daily = daily_volume_from_4h(candles_4h)
 
-            # hard filters
-            if daily_value < 80000:
-                print("SKIP LOW VOLUME:", symbol, daily_value)
+            cv = volume_cv(candles_4h)
+
+            # فیلترهای اصلی
+            if median_daily < 80000:
+                print("SKIP LOW DAILY:", symbol, round(median_daily, 2))
                 continue
 
             if cv > 3:
-                print("SKIP UNSTABLE:", symbol, cv)
+                print("SKIP UNSTABLE:", symbol, round(cv, 3))
                 continue
 
             results.append({
                 "symbol": symbol,
-                "atr": round(atr, 4),
-                "median_4h_value": round(median4h, 2),
-                "avg_4h_value": round(avg4h, 2),
-                "daily_value_est": round(daily_value, 2),
-                "cv": round(cv, 4)
+                "atr_1h_20d": round(atr, 4),
+                "avg_daily_value": round(avg_daily, 2),
+                "median_daily_value": round(median_daily, 2),
+                "volume_cv": round(cv, 4)
             })
 
         except Exception as e:
             print("ERROR", symbol, e)
 
-    atr_scores = normalize([x["atr"] for x in results])
-    liq_scores = normalize([x["median_4h_value"] for x in results])
-    cv_scores = {
-        id(x): max(0, 100 - x["cv"] * 20)
-        for x in results
-    }
+    if not results:
+        print("NO RESULTS")
+        return
 
-    for x in results:
-        x["score"] = round(
-            atr_scores[x["atr"]] * 0.5 +
-            liq_scores[x["median_4h_value"]] * 0.3 +
-            cv_scores[id(x)] * 0.2,
+    atr_rank = normalize(results, "atr_1h_20d")
+    vol_rank = normalize(results, "median_daily_value")
+
+    for r in results:
+        stability = max(0, 100 - r["volume_cv"] * 20)
+
+        r["score"] = round(
+            atr_rank[id(r)] * 0.5 +
+            vol_rank[id(r)] * 0.3 +
+            stability * 0.2,
             2
         )
 
@@ -185,14 +212,14 @@ def main():
     with open("symbol_ranking.json", "w", encoding="utf-8") as f:
         json.dump(results, f, indent=2, ensure_ascii=False)
 
-    report = "Nobitex Symbol Filter V4\n\n"
+    report = "Nobitex Symbol Filter V5\n\n"
 
     for i, r in enumerate(results, 1):
         report += (
             f"{i}) {r['symbol']} | "
-            f"ATR:{r['atr']}% | "
-            f"Daily:{r['daily_value_est']} | "
-            f"CV:{r['cv']} | "
+            f"ATR:{r['atr_1h_20d']}% | "
+            f"DailyMedian:{r['median_daily_value']} | "
+            f"CV:{r['volume_cv']} | "
             f"Score:{r['score']}\n"
         )
 
