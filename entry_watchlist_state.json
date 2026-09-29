@@ -1,4 +1,9 @@
 {
-  "long": {},
+  "long": {
+    "1M_PEPEUSDT": {
+      "status": "waiting",
+      "confirm_candles": 0
+    }
+  },
   "short": {}
 }
