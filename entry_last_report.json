@@ -1,1 +1,7 @@
-{}
+{
+  "1M_PEPEUSDT": {
+    "direction": "long",
+    "status": "waiting",
+    "confirm_candles": 0
+  }
+}

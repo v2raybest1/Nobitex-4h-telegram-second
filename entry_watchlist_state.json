@@ -2,7 +2,9 @@
   "long": {
     "1M_PEPEUSDT": {
       "status": "waiting",
-      "confirm_candles": 0
+      "confirm_candles": 0,
+      "symbol": "1M_PEPEUSDT",
+      "candle": "12-16"
     }
   },
   "short": {}
