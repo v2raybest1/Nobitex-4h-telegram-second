@@ -4,11 +4,13 @@
       "status": "waiting",
       "confirm_candles": 0,
       "symbol": "1M_PEPEUSDT",
-      "candle": "20-00"
+      "candle": "00-04"
     },
     "BNBUSDT": {
       "status": "waiting",
-      "confirm_candles": 0
+      "confirm_candles": 0,
+      "symbol": "BNBUSDT",
+      "candle": "00-04"
     }
   },
   "short": {}

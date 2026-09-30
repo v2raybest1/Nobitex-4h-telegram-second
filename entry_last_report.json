@@ -3,5 +3,10 @@
     "direction": "long",
     "status": "waiting",
     "confirm_candles": 0
+  },
+  "BNBUSDT": {
+    "direction": "long",
+    "status": "waiting",
+    "confirm_candles": 0
   }
 }
