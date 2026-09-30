@@ -8,5 +8,10 @@
     "direction": "long",
     "status": "waiting",
     "confirm_candles": 0
+  },
+  "ADAUSDT": {
+    "direction": "long",
+    "status": "waiting",
+    "confirm_candles": 0
   }
 }
