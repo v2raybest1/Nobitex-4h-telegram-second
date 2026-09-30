@@ -1,8 +1,8 @@
 {
   "1M_PEPEUSDT": {
     "direction": "long",
-    "status": "waiting",
-    "confirm_candles": 0
+    "status": "confirmed",
+    "confirm_candles": 1
   },
   "BNBUSDT": {
     "direction": "long",
