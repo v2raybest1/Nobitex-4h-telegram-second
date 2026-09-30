@@ -2,14 +2,19 @@
   "1M_PEPEUSDT": {
     "direction": "long",
     "status": "confirmed",
-    "confirm_candles": 1
+    "confirm_candles": 2
   },
   "BNBUSDT": {
+    "direction": "long",
+    "status": "confirmed",
+    "confirm_candles": 1
+  },
+  "ADAUSDT": {
     "direction": "long",
     "status": "waiting",
     "confirm_candles": 0
   },
-  "ADAUSDT": {
+  "HYPEUSDT": {
     "direction": "long",
     "status": "waiting",
     "confirm_candles": 0
