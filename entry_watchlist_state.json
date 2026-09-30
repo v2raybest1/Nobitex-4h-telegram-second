@@ -17,6 +17,10 @@
       "confirm_candles": 0,
       "symbol": "ADAUSDT",
       "candle": "08-12"
+    },
+    "HYPEUSDT": {
+      "status": "waiting",
+      "confirm_candles": 0
     }
   },
   "short": {}
