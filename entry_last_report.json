@@ -6,17 +6,17 @@
   },
   "BNBUSDT": {
     "direction": "long",
-    "status": "confirmed",
-    "confirm_candles": 5
+    "status": "waiting",
+    "confirm_candles": 0
   },
   "ADAUSDT": {
     "direction": "long",
-    "status": "confirmed",
-    "confirm_candles": 1
+    "status": "waiting",
+    "confirm_candles": 0
   },
   "HYPEUSDT": {
     "direction": "long",
-    "status": "confirmed",
-    "confirm_candles": 3
+    "status": "waiting",
+    "confirm_candles": 0
   }
 }
