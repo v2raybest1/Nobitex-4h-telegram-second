@@ -1,22 +1,27 @@
 {
   "1M_PEPEUSDT": {
     "direction": "long",
-    "status": "confirmed",
-    "confirm_candles": 8
+    "status": "waiting",
+    "confirm_candles": 0
   },
   "BNBUSDT": {
     "direction": "long",
     "status": "confirmed",
-    "confirm_candles": 5
+    "confirm_candles": 6
   },
   "ADAUSDT": {
     "direction": "long",
     "status": "confirmed",
-    "confirm_candles": 3
+    "confirm_candles": 4
   },
   "HYPEUSDT": {
     "direction": "long",
     "status": "confirmed",
-    "confirm_candles": 3
+    "confirm_candles": 4
+  },
+  "ZECUSDT": {
+    "direction": "long",
+    "status": "waiting",
+    "confirm_candles": 0
   }
 }
