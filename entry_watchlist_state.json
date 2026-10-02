@@ -23,6 +23,10 @@
       "confirm_candles": 3,
       "symbol": "HYPEUSDT",
       "candle": "12-16"
+    },
+    "ZECUSDT": {
+      "status": "waiting",
+      "confirm_candles": 0
     }
   },
   "short": {}
