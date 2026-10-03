@@ -29,6 +29,10 @@
       "confirm_candles": 0,
       "symbol": "ZECUSDT",
       "candle": "08-12"
+    },
+    "NEARUSDT": {
+      "status": "waiting",
+      "confirm_candles": 0
     }
   },
   "short": {}
