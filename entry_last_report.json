@@ -6,8 +6,8 @@
   },
   "BNBUSDT": {
     "direction": "long",
-    "status": "waiting",
-    "confirm_candles": 0
+    "status": "confirmed",
+    "confirm_candles": 1
   },
   "ADAUSDT": {
     "direction": "long",
@@ -20,6 +20,11 @@
     "confirm_candles": 0
   },
   "ZECUSDT": {
+    "direction": "long",
+    "status": "waiting",
+    "confirm_candles": 0
+  },
+  "NEARUSDT": {
     "direction": "long",
     "status": "waiting",
     "confirm_candles": 0
