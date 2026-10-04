@@ -12,12 +12,6 @@
       "symbol": "BNBUSDT",
       "candle": "16-20"
     },
-    "ADAUSDT": {
-      "status": "confirmed",
-      "confirm_candles": 1,
-      "symbol": "ADAUSDT",
-      "candle": "16-20"
-    },
     "HYPEUSDT": {
       "status": "confirmed",
       "confirm_candles": 6,
