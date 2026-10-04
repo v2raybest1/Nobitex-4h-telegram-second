@@ -7,7 +7,7 @@
   "BNBUSDT": {
     "direction": "long",
     "status": "confirmed",
-    "confirm_candles": 5
+    "confirm_candles": 6
   },
   "ADAUSDT": {
     "direction": "long",
@@ -17,7 +17,7 @@
   "HYPEUSDT": {
     "direction": "long",
     "status": "confirmed",
-    "confirm_candles": 4
+    "confirm_candles": 5
   },
   "ZECUSDT": {
     "direction": "long",
@@ -26,7 +26,7 @@
   },
   "NEARUSDT": {
     "direction": "long",
-    "status": "waiting",
-    "confirm_candles": 0
+    "status": "confirmed",
+    "confirm_candles": 1
   }
 }
