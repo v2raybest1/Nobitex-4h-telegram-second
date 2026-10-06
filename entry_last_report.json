@@ -11,17 +11,17 @@
   },
   "HYPEUSDT": {
     "direction": "long",
-    "status": "confirmed",
-    "confirm_candles": 18
+    "status": "waiting",
+    "confirm_candles": 0
   },
   "ZECUSDT": {
     "direction": "long",
     "status": "confirmed",
-    "confirm_candles": 5
+    "confirm_candles": 6
   },
   "NEARUSDT": {
     "direction": "long",
     "status": "confirmed",
-    "confirm_candles": 9
+    "confirm_candles": 10
   }
 }
