@@ -1,4 +1,33 @@
 {
-  "long": {},
+  "long": {
+    "WLDUSDT": {
+      "status": "waiting",
+      "confirm_candles": 0
+    },
+    "FILUSDT": {
+      "status": "waiting",
+      "confirm_candles": 0
+    },
+    "ADAUSDT": {
+      "status": "waiting",
+      "confirm_candles": 0
+    },
+    "SOLUSDT": {
+      "status": "waiting",
+      "confirm_candles": 0
+    },
+    "AAVEUSDT": {
+      "status": "waiting",
+      "confirm_candles": 0
+    },
+    "AVAXUSDT": {
+      "status": "waiting",
+      "confirm_candles": 0
+    },
+    "HYPEUSDT": {
+      "status": "waiting",
+      "confirm_candles": 0
+    }
+  },
   "short": {}
 }
