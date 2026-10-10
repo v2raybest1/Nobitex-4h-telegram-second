@@ -7,7 +7,7 @@
   "FILUSDT": {
     "direction": "long",
     "status": "confirmed",
-    "confirm_candles": 2
+    "confirm_candles": 3
   },
   "ADAUSDT": {
     "direction": "long",
