@@ -2,36 +2,36 @@
   "WLDUSDT": {
     "direction": "long",
     "status": "confirmed",
-    "confirm_candles": 12
+    "confirm_candles": 13
   },
   "FILUSDT": {
     "direction": "long",
     "status": "confirmed",
-    "confirm_candles": 5
+    "confirm_candles": 6
   },
   "ADAUSDT": {
     "direction": "long",
     "status": "confirmed",
-    "confirm_candles": 3
+    "confirm_candles": 4
   },
   "SOLUSDT": {
     "direction": "long",
     "status": "confirmed",
-    "confirm_candles": 3
+    "confirm_candles": 4
   },
   "AAVEUSDT": {
     "direction": "long",
-    "status": "confirmed",
-    "confirm_candles": 1
+    "status": "waiting",
+    "confirm_candles": 0
   },
   "AVAXUSDT": {
     "direction": "long",
     "status": "confirmed",
-    "confirm_candles": 3
+    "confirm_candles": 4
   },
   "HYPEUSDT": {
     "direction": "long",
     "status": "confirmed",
-    "confirm_candles": 1
+    "confirm_candles": 2
   }
 }
