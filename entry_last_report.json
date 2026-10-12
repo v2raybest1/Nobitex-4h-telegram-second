@@ -7,12 +7,12 @@
   "FILUSDT": {
     "direction": "long",
     "status": "confirmed",
-    "confirm_candles": 8
+    "confirm_candles": 9
   },
   "ADAUSDT": {
     "direction": "long",
-    "status": "confirmed",
-    "confirm_candles": 6
+    "status": "waiting",
+    "confirm_candles": 0
   },
   "SOLUSDT": {
     "direction": "long",
@@ -27,7 +27,7 @@
   "AVAXUSDT": {
     "direction": "long",
     "status": "confirmed",
-    "confirm_candles": 6
+    "confirm_candles": 7
   },
   "HYPEUSDT": {
     "direction": "long",
