@@ -2,45 +2,45 @@
   "long": {
     "WLDUSDT": {
       "status": "confirmed",
-      "confirm_candles": 13,
+      "confirm_candles": 14,
       "symbol": "WLDUSDT",
-      "candle": "04-08"
+      "candle": "08-12"
     },
     "FILUSDT": {
       "status": "confirmed",
-      "confirm_candles": 6,
+      "confirm_candles": 7,
       "symbol": "FILUSDT",
-      "candle": "04-08"
+      "candle": "08-12"
     },
     "ADAUSDT": {
       "status": "confirmed",
-      "confirm_candles": 4,
+      "confirm_candles": 5,
       "symbol": "ADAUSDT",
-      "candle": "04-08"
+      "candle": "08-12"
     },
     "SOLUSDT": {
       "status": "confirmed",
-      "confirm_candles": 4,
+      "confirm_candles": 5,
       "symbol": "SOLUSDT",
-      "candle": "04-08"
+      "candle": "08-12"
     },
     "AAVEUSDT": {
       "status": "waiting",
       "confirm_candles": 0,
       "symbol": "AAVEUSDT",
-      "candle": "04-08"
+      "candle": "08-12"
     },
     "AVAXUSDT": {
       "status": "confirmed",
-      "confirm_candles": 4,
+      "confirm_candles": 5,
       "symbol": "AVAXUSDT",
-      "candle": "04-08"
+      "candle": "08-12"
     },
     "HYPEUSDT": {
       "status": "confirmed",
-      "confirm_candles": 2,
+      "confirm_candles": 3,
       "symbol": "HYPEUSDT",
-      "candle": "04-08"
+      "candle": "08-12"
     }
   },
   "short": {}
