@@ -6,8 +6,8 @@
   },
   "FILUSDT": {
     "direction": "long",
-    "status": "waiting",
-    "confirm_candles": 0
+    "status": "confirmed",
+    "confirm_candles": 1
   },
   "ADAUSDT": {
     "direction": "long",
