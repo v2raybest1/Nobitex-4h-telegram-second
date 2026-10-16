@@ -7,7 +7,7 @@
   "FILUSDT": {
     "direction": "long",
     "status": "confirmed",
-    "confirm_candles": 1
+    "confirm_candles": 2
   },
   "ADAUSDT": {
     "direction": "long",
@@ -31,7 +31,7 @@
   },
   "HYPEUSDT": {
     "direction": "long",
-    "status": "waiting",
-    "confirm_candles": 0
+    "status": "confirmed",
+    "confirm_candles": 1
   }
 }
