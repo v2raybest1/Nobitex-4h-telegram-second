@@ -1,13 +1,13 @@
 {
   "WLDUSDT": {
     "direction": "long",
-    "status": "confirmed",
-    "confirm_candles": 3
+    "status": "waiting",
+    "confirm_candles": 0
   },
   "FILUSDT": {
     "direction": "long",
     "status": "confirmed",
-    "confirm_candles": 6
+    "confirm_candles": 7
   },
   "ADAUSDT": {
     "direction": "long",
@@ -26,8 +26,8 @@
   },
   "AVAXUSDT": {
     "direction": "long",
-    "status": "confirmed",
-    "confirm_candles": 3
+    "status": "waiting",
+    "confirm_candles": 0
   },
   "HYPEUSDT": {
     "direction": "long",
