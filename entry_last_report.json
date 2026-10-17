@@ -1,13 +1,13 @@
 {
   "WLDUSDT": {
     "direction": "long",
-    "status": "confirmed",
-    "confirm_candles": 3
+    "status": "waiting",
+    "confirm_candles": 0
   },
   "FILUSDT": {
     "direction": "long",
-    "status": "confirmed",
-    "confirm_candles": 10
+    "status": "waiting",
+    "confirm_candles": 0
   },
   "ADAUSDT": {
     "direction": "long",
